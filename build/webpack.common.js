@@ -5,19 +5,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const optimizaCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
+const {
+  CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 
-module.exports = {
+const config = {
   entry: {
-    main: './src/index.js',
+    index: './src/index.js',
+    list: './src/index.js',
   },
   module: {
     rules: [{
         test: /\.js$/,
         exclude: /node_modules/,
         use: [{
-            loader: 'babel-loader',
-          },
-        ]
+          loader: 'babel-loader',
+        }, ]
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -38,9 +41,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
-    }),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),
@@ -61,3 +62,20 @@ module.exports = {
     ]
   }
 }
+
+const makeHtmlPlugins = function (configs) {
+  const htmlPlugins = [];
+  Object.keys(config.entry).forEach(key => {
+    htmlPlugins.push(
+      new HtmlWebpackPlugin({
+        template: 'src/index.html',
+        filename: `${key}.html`,
+        chunks: [key]
+      })
+    )
+  });
+  return htmlPlugins;
+}
+
+config.plugins = config.plugins.concat(makeHtmlPlugins(config));
+module.exports = config;
