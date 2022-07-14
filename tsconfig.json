@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "ES6", //使用ES6模块
+    "target": "ES5", //转换成es5代码
+    "allowJs": true, // 允许我们在.ts文件中通过import语法引入其他.js文件
+    "outDir": "./"
+  },
+  "exclude": ["build", "node_modules", "dist"]
+}

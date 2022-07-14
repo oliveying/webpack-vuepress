@@ -4,6 +4,7 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const {
   CleanWebpackPlugin
 } = require("clean-webpack-plugin");
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const prodConfig = {
   mode: 'production',
@@ -13,6 +14,7 @@ const prodConfig = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new BundleAnalyzerPlugin(),
     new WorkboxWebpackPlugin.GenerateSW({
       clientsClaim: true,
       skipWaiting: true
